@@ -10,7 +10,7 @@ function theme.highlights(colors, config)
 
     local syntax = {
       -- int, long, char, etc.
-      Type = { fg = colors.yellow },
+      Type = { fg = colors.blue },
       -- static, register, volatile, etc.
       StorageClass = { fg = colors.purple },
       -- struct, union, enum, etc.
@@ -18,13 +18,13 @@ function theme.highlights(colors, config)
       -- any constant
       Constant = { fg = colors.blue },
       -- any character constant: 'c', '\n'
-      Character = { fg = colors.green },
+      Character = { fg = colors.orange, style = "bold" },
       -- a number constant: 5
-      Number = { fg = colors.orange },
+      Number = { fg = colors.blue },
       -- a boolean constant: TRUE, false
-      Boolean = { fg = colors.orange },
+      Boolean = { fg = colors.blue, style = "bold" },
       -- a floating point constant: 2.3e10
-      Float = { fg = colors.orange },
+      Float = { fg = colors.blue },
       -- any statement
       Statement = { fg = colors.purple },
       -- case, default, etc.
@@ -32,7 +32,7 @@ function theme.highlights(colors, config)
       -- sizeof", "+", "*", etc.
       Operator = { fg = colors.purple },
       -- try, catch, throw
-      Exception = { fg = colors.purple },
+      Exception = { fg = colors.blue, style = "bold" },
       -- generic Preprocessor
       PreProc = { fg = colors.purple },
       -- preprocessor #include
@@ -64,12 +64,12 @@ function theme.highlights(colors, config)
       -- any erroneous construct
       Error = { fg = colors.error, bg = colors.none, style = "bold,underline" },
       -- anything that needs extra attention; mostly the keywords TODO FIXME and XXX
-      Todo = { fg = colors.yellow, bg = colors.none, style = "bold,italic" },
+      Todo = { fg = colors.red, bg = colors.none, style = "bold" },
       Comment = { fg = colors.light_gray, style = config.styles.comments }, -- normal comments
       -- normal if, then, else, endif, switch, etc.
-      Conditional = { fg = colors.purple, style = config.styles.keywords },
+      Conditional = { fg = colors.blue, style = config.styles.keywords },
       -- normal for, do, while, etc.
-      Keyword = { fg = colors.purple, style = config.styles.keywords },
+      Keyword = { fg = colors.blue, style = config.styles.keywords },
       -- normal any other keyword
       Repeat = { fg = colors.purple, style = config.styles.keywords },
       -- normal function names
@@ -81,11 +81,11 @@ function theme.highlights(colors, config)
 
       htmlLink = { fg = colors.green, style = "underline" },
       htmlArg = { fg = colors.blue },
-      htmlTag = { fg = colors.blue },
-      htmlEndTag = { fg = colors.blue },
-      htmlTagN = { fg = colors.yellow },
-      htmlTagName = { fg = colors.yellow },
-      htmlSpecialTagName = { fg = colors.yellow },
+      htmlTag = { fg = colors.purple },
+      htmlEndTag = { fg = colors.purple },
+      htmlTagN = { fg = colors.purple },
+      htmlTagName = { fg = colors.purple },
+      htmlSpecialTagName = { fg = colors.purple },
       htmlH1 = { fg = colors.cyan, style = "bold" },
       htmlH2 = { fg = colors.red, style = "bold" },
       htmlH3 = { fg = colors.green, style = "bold" },
@@ -318,59 +318,65 @@ function theme.highlights(colors, config)
     local treesitter = {
       -- Annotations that can be attached to the code to denote some kind of meta information. e.g. C++/Dart attributes.
       ["@attribute"] = { fg = colors.purple },
+      -- Python decorator @
+      ["@attribute.python"] = { fg = colors.cyan, style = "bold" },
+      -- Python decorator text after @
+      ["@attribute.builtin.python"] = { fg = colors.cyan, style = "bold" },
       -- Boolean literals: `True` and `False` in Python.
-      ["@boolean"] = { fg = colors.orange },
+      ["@boolean"] = { fg = colors.blue, style = config.styles.keywords },
       -- Character literals: `'a'` in C.
       ["@character"] = { fg = colors.green },
       -- Line comments and block comments.
       ["@comment"] = { fg = colors.light_gray, style = config.styles.comments },
       -- Keywords related to conditionals: `if`, `when`, `cond`, etc.
-      ["@conditional"] = { fg = colors.purple, style = config.styles.keywords },
+      ["@conditional"] = { fg = colors.blue, style = config.styles.keywords },
       -- Constants identifiers. These might not be semantically constant. E.g. uppercase variables in Python.
-      ["@constant"] = { fg = colors.cyan },
+      ["@constant"] = { fg = colors.fg },
       -- Built-in constant values: `nil` in Lua.
-      ["@constant.builtin"] = { fg = colors.orange },
+      ["@constant.builtin"] = { fg = colors.blue, style = config.styles.keywords },
       -- Constants defined by macros: `NULL` in C.
       ["@constant.macro"] = { fg = colors.red },
       -- Constructor calls and definitions: `{}` in Lua, and Java constructors.
-      ["@constructor"] = { fg = colors.yellow },
+      ["@constructor"] = { fg = colors.fg },
       -- Syntax/parser errors. This might highlight large sections of code while the user is typing
       -- still incomplete code, use a sensible highlight.
       ["@error"] = { fg = colors.error },
       -- Exception related keywords: `try`, `except`, `finally` in Python.
-      ["@exception"] = { fg = colors.purple },
+      ["@exception"] = { fg = colors.blue, style = config.styles.keywords },
       -- Object and struct fields.
-      ["@field"] = { fg = colors.blue },
+      ["@field"] = { fg = colors.fg },
       -- Floating-point number literals.
       ["@float"] = { fg = colors.orange },
-      -- Function calls and definitions.
-      ["@function"] = { fg = colors.blue, style = config.styles.functions },
+      -- Function definitions.
+      ["@function"] = { fg = colors.fg, style = config.styles.keywords },
+      -- Function calls.
+      ["@function.call"] = { fg = colors.fg },
       -- Built-in functions: `print` in Lua.
-      ["@function.builtin"] = { fg = colors.cyan, style = config.styles.functions },
+      ["@function.builtin"] = { fg = colors.blue, style = config.styles.keywords },
       -- Macro defined functions (calls and definitions): each `macro_rules` in Rust.
       ["@function.macro"] = { fg = colors.blue },
       -- File or module inclusion keywords: `#include` in C, `use` or `extern crate` in Rust.
-      ["@include"] = { fg = colors.blue },
+      ["@include"] = { fg = colors.blue, style = "bold" },
       -- Keywords that don't fit into other categories.
-      ["@keyword"] = { fg = colors.purple, style = config.styles.keywords },
+      ["@keyword"] = { fg = colors.blue, style = config.styles.keywords },
       -- Keywords used to define a function: `function` in Lua, `def` and `lambda` in Python.
-      ["@keyword.function"] = { fg = colors.purple, style = config.styles.keywords },
+      ["@keyword.function"] = { fg = colors.blue, style = config.styles.keywords },
       -- Unary and binary operators that are English words: `and`, `or` in Python; `sizeof` in C.
-      ["@keyword.operator"] = { fg = colors.purple },
+      ["@keyword.operator"] = { fg = colors.blue, style = config.styles.keywords },
       -- Keywords like `return` and `yield`.
-      ["@keyword.return"] = { fg = colors.purple },
+      ["@keyword.return"] = { fg = colors.blue, style = config.styles.keywords },
       -- GOTO labels: `label:` in C, and `::label::` in Lua.
       ["@label"] = { fg = colors.purple },
       -- Method calls and definitions.
-      ["@method"] = { fg = colors.blue, style = config.styles.functions },
+      ["@method"] = { fg = colors.fg, style = config.styles.functions },
       -- Identifiers referring to modules and namespaces.
       ["@namespace"] = { fg = colors.yellow },
       -- Numeric literals that don't fit into other categories.
-      ["@number"] = { fg = colors.orange },
+      ["@number"] = { fg = colors.blue },
       -- Binary or unary operators: `+`, and also `->` and `*` in C.
-      ["@operator"] = { fg = colors.purple },
+      ["@operator"] = { fg = colors.fg },
       -- Parameters of a function.
-      ["@parameter"] = { fg = colors.red },
+      ["@parameter"] = { fg = colors.fg },
       -- References to parameters of a function.
       ["@parameter.reference"] = { fg = colors.red },
       -- Same as `@field`.
@@ -378,25 +384,27 @@ function theme.highlights(colors, config)
       -- Punctuation delimiters: Periods, commas, semicolons, etc.
       ["@punctuation.delimiter"] = { fg = colors.dark_blue },
       -- Brackets, braces, parentheses, etc.
-      ["@punctuation.bracket"] = { fg = colors.dark_blue },
+      ["@punctuation.bracket"] = { fg = colors.fg },
       -- Special punctuation that doesn't fit into the previous categories.
-      ["@punctuation.special"] = { fg = colors.dark_blue },
+      ["@punctuation.special"] = { fg = colors.orange, style = "bold" },
       -- Keywords related to loops: `for`, `while`, etc.
-      ["@repeat"] = { fg = colors.purple, style = config.styles.keywords },
+      ["@repeat"] = { fg = colors.blue, style = config.styles.keywords },
       -- String literals.
       ["@string"] = { fg = colors.green, style = config.styles.strings },
+      -- Python docstring
+      ["@string.documentation.python"] = { fg = colors.light_gray, style = config.styles.comments },
       -- Regular expression literals.
       ["@string.regex"] = { fg = colors.orange },
       -- Escape characters within a string: `\n`, `\t`, etc.
-      ["@string.escape"] = { fg = colors.orange },
+      ["@string.escape"] = { fg = colors.orange, style = "bold" },
       -- Identifiers referring to symbols or atoms.
       ["@symbol"] = { fg = colors.cyan },
       -- Tags like HTML tag names.
-      ["@tag"] = { fg = colors.yellow },
+      ["@tag"] = { fg = colors.purple },
       -- HTML tag attributes.
       ["@tag.attribute"] = { fg = colors.blue },
       -- Tag delimiters like `<` `>` `/`.
-      ["@tag.delimiter"] = { fg = colors.dark_blue },
+      ["@tag.delimiter"] = { fg = colors.purple },
       -- Non-structured text. Like text in a markup language.
       ["@text"] = { fg = colors.fg },
       -- Text to be represented in bold.
@@ -432,13 +440,13 @@ function theme.highlights(colors, config)
       -- Text representation of a danger note.
       ["@danger"] = { fg = colors.error, style = "bold" },
       -- Type (and class) definitions and annotations.
-      ["@type"] = { fg = colors.yellow },
+      ["@type"] = { fg = colors.fg, style = "bold" },
       -- Built-in types: `i32` in Rust.
-      ["@type.builtin"] = { fg = colors.orange },
+      ["@type.builtin"] = { fg = colors.blue },
       -- Variable names that don't fit into other categories.
       ["@variable"] = { fg = colors.fg, style = config.styles.variables },
       -- Variable names defined by the language: `this` or `self` in Javascript.
-      ["@variable.builtin"] = { fg = colors.red, style = config.styles.variables },
+      ["@variable.builtin"] = { fg = colors.purple, style = "bold" },
     }
 
     return treesitter
